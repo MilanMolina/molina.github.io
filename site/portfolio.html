@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Milan Molina | Visual Creator</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Raleway:wght@300;400;700&display=swap');
+    
+    :root {
+      --neon-purple: rgba(181, 28, 255, 0.8);
+      --neon-blue: rgba(28, 152, 255, 0.8);
+      --neon-green: rgba(51, 255, 140, 0.8);
+      --dark-bg: #0c0c17;
+      --darker-bg: #06060d;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--darker-bg);
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(181, 28, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 90% 10%, rgba(28, 152, 255, 0.05) 0%, transparent 40%);
+      color: #fff;
+      font-family: 'Raleway', sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Stars animation */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle var(--duration) infinite;
+      opacity: 0;
+    }
+    
+    @keyframes twinkle {
+      0% { opacity: 0; }
+      50% { opacity: var(--opacity); }
+      100% { opacity: 0; }
+    }
+    
+    @keyframes shine {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 400% 50%; }
+    }
+    
+    /* Animations */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Main content */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 1rem;
+      padding-top: 0.5rem;
+      animation: fadeInDown 0.9s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
+    }
+    
+    .subtitle {
+      font-size: 1.3rem;
+      font-weight: 300;
+      color: rgba(51, 255, 140, 0.8);
+      margin-top: 0;
+      margin-bottom: 0.25rem;
+      text-shadow: 0 0 3px rgba(51, 255, 140, 0.3);
+      font-family: 'Orbitron', sans-serif;
+    }
+    
+    .shiny-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin: 0;
+      cursor: pointer;
+      background-image: linear-gradient(
+        -45deg, 
+        rgba(181, 28, 255, 0.9) 0%, 
+        rgba(255, 25, 240, 0.9) 25%, 
+        rgba(28, 152, 255, 0.9) 50%, 
+        rgba(0, 251, 255, 0.9) 75%, 
+        rgba(181, 28, 255, 0.9) 100%
+      );
+      background-size: 400%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shine 5s linear infinite;
+      text-shadow: 0 0 3px rgba(181, 28, 255, 0.3);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .shiny-name:hover {
+      transform: scale(1.05);
+      text-shadow: 0 0 8px rgba(181, 28, 255, 0.6),
+                  0 0 16px rgba(28, 152, 255, 0.4);
+    }
+    
+    .intro {
+      max-width: 700px;
+      margin: 0 auto 1.5rem;
+      text-align: center;
+      font-size: 1.1rem;
+      color: #bbb;
+      animation: fadeIn 0.9s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards 0.2s;
+    }
+    
+    .intro-text {
+      margin: 0;
+      display: inline-block;
+      line-height: 1.7;
+    }
+    
+    /* Cards layout - Enhanced hover effects */
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      overflow: visible;
+    }
+    
+    .card, .contact-card {
+      background: rgba(12, 12, 23, 0.8);
+      border-radius: 12px;
+      padding: 1rem;
+      animation: fadeInUp 0.9s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                  box-shadow 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .card {
+      border: 1px solid rgba(181, 28, 255, 0.2);
+      box-shadow: 0 0 10px rgba(181, 28, 255, 0.15),
+                  inset 0 0 10px rgba(28, 152, 255, 0.03);
+    }
+    
+    .contact-card {
+      border: 1px solid rgba(51, 255, 140, 0.2);
+      box-shadow: 0 0 10px rgba(51, 255, 140, 0.15),
+                  inset 0 0 10px rgba(51, 255, 140, 0.03);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Enhanced hover effect for cards */
+    .card:hover, .contact-card:hover {
+      transform: translateY(-8px) scale(1.03);
+    }
+    
+    .card:hover {
+      box-shadow: 0 10px 20px rgba(181, 28, 255, 0.25),
+                  inset 0 0 15px rgba(28, 152, 255, 0.08),
+                  0 0 0 1px rgba(181, 28, 255, 0.4);
+    }
+    
+    .contact-card:hover {
+      box-shadow: 0 10px 20px rgba(51, 255, 140, 0.25),
+                  inset 0 0 15px rgba(51, 255, 140, 0.08),
+                  0 0 0 1px rgba(51, 255, 140, 0.4);
+    }
+    
+    .card h2 {
+      font-family: 'Orbitron', sans-serif;
+      color: rgba(181, 28, 255, 0.9);
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(181, 28, 255, 0.2);
+      padding-bottom: 0.25rem;
+      font-size: 1.4rem;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 5px rgba(181, 28, 255, 0.3);
+    }
+    
+    .contact-card h2 {
+      font-family: 'Orbitron', sans-serif;
+      color: rgba(51, 255, 140, 0.9);
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(51, 255, 140, 0.2);
+      padding-bottom: 0.25rem;
+      font-size: 1.4rem;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 5px rgba(51, 255, 140, 0.3);
+    }
+    
+    .card ul {
+      padding-left: 1.2rem;
+      margin: 0.5rem 0;
+      list-style-type: square;
+      color: rgba(28, 152, 255, 0.8);
+    }
+    
+    .card li {
+      margin-bottom: 0.3rem;
+      color: #fff;
+    }
+    
+    .contact-card p {
+      margin: 0.25rem 0;
+    }
+    
+    .contact-info {
+      margin: 0.5rem 0 1.5rem 0;
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.3rem;
+    }
+    
+    .contact-icon {
+      margin-right: 0.5rem;
+      color: rgba(51, 255, 140, 0.9);
+      width: 18px;
+      display: inline-flex;
+      justify-content: center;
+    }
+    
+    /* Telegram icon */
+    .telegram-icon {
+      width: 18px;
+      height: 18px;
+      margin-right: 0.5rem;
+      fill: rgba(51, 255, 140, 0.9);
+    }
+    
+    /* Email and Telegram protection styles */
+    .protected-email, .protected-telegram {
+      position: relative;
+      cursor: pointer;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    
+    .protected-email:hover, .protected-telegram:hover {
+      color: rgba(51, 255, 140, 0.9);
+      text-shadow: 0 0 3px rgba(51, 255, 140, 0.3);
+    }
+    
+    .email-tooltip, .telegram-tooltip {
+      position: absolute;
+      background: rgba(12, 12, 23, 0.95);
+      border: 1px solid var(--neon-green);
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      box-shadow: 0 0 10px rgba(51, 255, 140, 0.3);
+      pointer-events: none;
+      z-index: 100;
+    }
+    
+    .protected-email:hover .email-tooltip,
+    .protected-telegram:hover .telegram-tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: auto;
+    }
+    
+    .tech-tag {
+      background: rgba(28, 152, 255, 0.15);
+      color: rgba(28, 152, 255, 0.9);
+      padding: 0.2rem 0.5rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      border: 1px solid rgba(28, 152, 255, 0.2);
+    }
+    
+    /* Button container */
+    .button-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    /* Button styles */
+    .btn {
+      display: inline-block;
+      width: 320px;
+      padding: 1rem 1.5rem;
+      color: white;
+      text-decoration: none;
+      text-align: center;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: bold;
+      border-radius: 30px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px; /* Slightly reduced for better fit */
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(51, 255, 140, 0.3);
+      animation: fadeIn 0.9s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards 0.7s;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      font-size: 0.95rem; /* Slightly reduced for better fit */
+    }
+    
+    .btn:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      transition: all 0.8s ease;
+    }
+    
+    .btn:hover:before {
+      left: 100%;
+    }
+    
+    .back-btn {
+      background: linear-gradient(45deg, rgba(51, 255, 140, 0.9), rgba(28, 152, 255, 0.9));
+      box-shadow: 0 0 10px rgba(51, 255, 140, 0.3);
+    }
+    
+    .back-btn:hover {
+      box-shadow: 0 0 15px rgba(51, 255, 140, 0.5);
+      transform: scale(1.05);
+    }
+    
+    .contact-btn {
+      background: linear-gradient(45deg, rgba(181, 28, 255, 0.9), rgba(28, 152, 255, 0.9));
+      box-shadow: 0 0 10px rgba(181, 28, 255, 0.3);
+    }
+    
+    .contact-btn:hover {
+      box-shadow: 0 0 15px rgba(181, 28, 255, 0.5);
+      transform: scale(1.05);
+    }
+    
+    /* Card animation delay */
+    #card1 { animation-delay: 0.3s; }
+    #card2 { animation-delay: 0.4s; }
+    #card3 { animation-delay: 0.5s; }
+    #card4 { animation-delay: 0.6s; }
+    
+    /* Main content container */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+    
+    @media (max-width: 768px) {
+      .subtitle {
+        font-size: 1rem;
+      }
+      
+      .shiny-name {
+        font-size: 2.5rem;
+      }
+      
+      .content-grid {
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+      }
+      
+      .card, .contact-card {
+        padding: 0.8rem;
+        min-height: 140px;
+      }
+      
+      .card h2, .contact-card h2 {
+        font-size: 1.2rem;
+      }
+      
+      .intro {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+      }
+      
+      .card ul {
+        padding-left: 1rem;
+      }
+      
+      .tech-tags {
+        gap: 0.3rem;
+      }
+      
+      .tech-tag {
+        font-size: 0.7rem;
+        padding: 0.15rem 0.4rem;
+      }
+      
+      .button-container {
+        flex-direction: column;
+        gap: 0.7rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .btn {
+        width: 320px;
+        padding: 0.8rem 1.4rem;
+        font-size: 0.9rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        padding: 0.7rem;
+      }
+      
+      .subtitle {
+        font-size: 0.9rem;
+      }
+      
+      .shiny-name {
+        font-size: 2rem;
+      }
+      
+      .intro {
+        font-size: 0.8rem;
+        margin-bottom: 0.7rem;
+        max-width: 95%;
+      }
+      
+      .content-grid {
+        gap: 0.5rem;
+      }
+      
+      .card, .contact-card {
+        padding: 0.7rem;
+        min-height: 135px;
+      }
+      
+      .card h2, .contact-card h2 {
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+      }
+      
+      .card li {
+        font-size: 0.85rem;
+        margin-bottom: 0.2rem;
+      }
+      
+      .contact-card p {
+        font-size: 0.85rem;
+      }
+      
+      .btn {
+        padding: 0.7rem 1.2rem;
+      }
+      
+      /* Reduce star density for better performance */
+      .star:nth-child(even) {
+        display: none;
+      }
+      
+      /* Adjust contact info for better fit */
+      .contact-info {
+        margin: 0.4rem 0 1rem 0;
+      }
+      
+      .contact-item {
+        margin-bottom: 0.2rem;
+      }
+    }
+	.language-switcher {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.lang-link {
+  color: white;
+  text-decoration: none;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--neon-green);
+  border-radius: 20px;
+  transition: all 0.3s;
+}
+
+.lang-link:hover {
+  background: rgba(51, 255, 140, 0.2);
+}
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  
+  <div class="container">
+    <header id="header">
+      <p class="subtitle">VISUAL CONTENT CREATOR</p>
+      <h1 class="shiny-name" id="shinyName">MILAN MOLINA</h1>
+    </header>
+    <div class="language-switcher">
+  <a href="portfolio-ru.html" class="lang-link">RU</a>
+</div>
+    <div class="intro" id="intro">
+      <p class="intro-text">Transforming ideas into striking visuals. Expert in using AI tools on everyday basis. Pushing boundaries through cutting-edge technology.</p>
+    </div>
+    
+    <div class="main-content" id="mainContent">
+      <div class="content-grid">
+        <div class="card" id="card1">
+          <h2>KEY SKILLS</h2>
+          <ul>
+            <li>Photo & Video Generation</li>
+            <li>Advanced Image Editing</li>
+            <li>LLM Interaction (Grok, Claude)</li>
+            <li>Custom LoRA Model Development</li>
+          </ul>
+        </div>
+        
+        <div class="card" id="card2">
+          <h2>MAIN INSTRUMENTS</h2>
+          <ul>
+            <li>Davinci Resolve</li>
+            <li>Flux, Pony, Illustrious models</li>
+            <li>Figma and Photoshop</li>
+            <li>ElevenLabs</li>
+          </ul>
+        </div>
+        
+        <div class="card" id="card3">
+          <h2>QUICK HIGHLIGHTS</h2>
+          <ul>
+            <li>Meme Creator experience at de4444th</li>
+            <li>Fluent Russian, B2 English</li>
+            <li>ComfyUI Course Graduate</li>
+            <li>Works featured on CivitAI main page</li>
+            <li>Competitive Dota 2 11k mmr player</li>
+            <li>Healthy perfectionist</li>
+            <li>Made this site with AI only</li>
+          </ul>
+        </div>
+        
+        <div class="contact-card" id="card4">
+          <h2>CONNECT & COLLABORATE</h2>
+          <p>Looking for creative solutions or custom visual content? Get in touch to discuss your project needs.</p>
+          
+          <div class="contact-info">
+            <div class="contact-item">
+              <span class="contact-icon">✉️</span>
+              <span class="protected-email">
+                milanmolina@yandex.ru
+                <span class="email-tooltip">Click to copy: milanmolina@yandex.ru</span>
+              </span>
+            </div>
+            <div class="contact-item">
+              <svg class="telegram-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill="white" d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
+              </svg>
+              <a href="https://t.me/mfk1ng" class="protected-telegram">
+                t.me/mfk1ng
+                <span class="telegram-tooltip">Click to copy: t.me/mfk1ng</span>
+              </a>
+            </div>
+          </div>
+          
+          <div class="tech-tags">
+            <span class="tech-tag">Team Player</span>
+            <span class="tech-tag">Innovative Thinker</span>
+            <span class="tech-tag">Detail Oriented</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Buttons for navigation and contact -->
+      <div class="button-container">
+        <a href="https://t.me/mfk1ng" class="btn contact-btn" id="contactBtn" target="_blank">CONTACT ME</a>
+        <a href="gallery.html" class="btn back-btn" id="backBtn">BACK TO GALLERY</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Star creation function
+    function createStars() {
+      const starsContainer = document.getElementById('stars');
+      const starCount = 100;
+      const fragment = document.createDocumentFragment();
+      
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        
+        // Random properties
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        const size = Math.random() * 2 + 1;
+        const opacity = Math.random() * 0.7 + 0.3;
+        const duration = Math.random() * 3 + 2;
+        
+        star.style.cssText = `
+          left: ${x}%;
+          top: ${y}%;
+          width: ${size}px;
+          height: ${size}px;
+          --opacity: ${opacity};
+          --duration: ${duration}s;
+          animation-delay: ${Math.random() * duration}s;
+        `;
+        
+        fragment.appendChild(star);
+      }
+      
+      starsContainer.appendChild(fragment);
+    }
+    
+    // Create stars on page load
+    document.addEventListener('DOMContentLoaded', createStars);
+  
+    // Name click effect
+    document.getElementById('shinyName').addEventListener('click', function() {
+      this.style.transform = 'scale(1.1)';
+      this.style.textShadow = '0 0 10px rgba(181, 28, 255, 0.7), 0 0 20px rgba(28, 152, 255, 0.5)';
+      
+      setTimeout(() => {
+        this.style.transform = '';
+        this.style.textShadow = '';
+      }, 300);
+    });
+    
+   // Email copy functionality
+document.querySelector('.protected-email').addEventListener('click', function() {
+  const email = 'milanmolina@yandex.ru'; // Hardcode the email
+  navigator.clipboard.writeText(email)
+    .then(() => {
+      const tooltip = this.querySelector('.email-tooltip');
+      tooltip.textContent = 'milanmolina@yandex.ru'; // Show only email
+      
+      // Reset to original tooltip after 2 seconds
+      setTimeout(() => {
+        tooltip.textContent = 'Click to copy: milanmolina@yandex.ru';
+      }, 2000);
+    })
+    .catch(err => {
+      console.error('Could not copy text: ', err);
+    });
+});
+    
+    // Telegram copy functionality
+document.querySelector('.protected-telegram').addEventListener('click', function(e) {
+  e.preventDefault(); // Prevent the default link behavior
+  const telegramHandle = 't.me/mfk1ng'; // Hardcode the handle
+  navigator.clipboard.writeText(telegramHandle)
+    .then(() => {
+      const tooltip = this.querySelector('.telegram-tooltip');
+      tooltip.textContent = 't.me/mfk1ng'; // Show only handle
+      
+      // Reset to original tooltip after 2 seconds
+      setTimeout(() => {
+        tooltip.textContent = 'Click to copy: t.me/mfk1ng';
+      }, 2000);
+    })
+    .catch(err => {
+      console.error('Could not copy text: ', err);
+    });
+});
+  </script>
+</body>
+</html>
